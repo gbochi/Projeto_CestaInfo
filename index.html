@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cestas Básicas - Início (Sprint 1)</title>
+    <title>Cestas Básicas - Catálogo e Filtros (Sprint 2)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,7 @@
     <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <h1 class="font-bold text-lg text-emerald-700">Comércio de Cestas Básicas</h1>
-            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Sprint 1 - MVP</span>
+            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Sprint 2</span>
         </div>
     </header>
 
@@ -22,26 +22,77 @@
     <section class="bg-emerald-900 text-white py-12 px-4 text-center">
         <div class="max-w-3xl mx-auto space-y-3">
             <h2 class="text-3xl font-extrabold">Qualidade e Economia para sua Família</h2>
-            <p class="text-slate-200 text-sm sm:text-base">Confira abaixo o nosso catálogo inicial de cestas básicas estruturadas para atender às suas necessidades com total transparência.</p>
+            <p class="text-slate-200 text-sm sm:text-base">Utilize nossos filtros abaixo para encontrar rapidamente a cesta ideal com base nas suas necessidades e orçamento.</p>
         </div>
     </section>
 
-    <!-- Vitrine / Catálogo Visual de Cestas -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
-        <div class="mb-6">
-            <h3 class="text-xl font-bold text-slate-900">Catálogo de Cestas Disponíveis</h3>
-            <p class="text-xs text-slate-500">Opções selecionadas com os melhores produtos do mercado.</p>
-        </div>
+    <!-- Conteúdo Principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
 
-        <!-- Grid de Cards Renderizado via JS -->
-        <div id="basketsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Os cards da Sprint 1 entram aqui -->
-        </div>
+        <!-- Área de Controles: Busca e Filtros (Sprint 2) -->
+        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Busca por texto livre (Nome ou Itens) -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Buscar Cesta ou Item</label>
+                    <input type="text" id="searchInput" placeholder="Ex: Arroz, Cesta Família..."
+                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+                </div>
+
+                <!-- Filtro por Categoria -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Filtrar por Categoria</label>
+                    <select id="categoryFilter" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+                        <option value="todos">Todas as Cestas</option>
+                        <option value="economica">Cesta Econômica</option>
+                        <option value="essencial">Cesta Essencial</option>
+                        <option value="familia">Cesta Família</option>
+                        <option value="premium">Cesta Premium</option>
+                    </select>
+                </div>
+
+                <!-- Filtro por Faixa de Preço Máximo -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Preço Máximo: <span id="priceValue" class="font-bold text-emerald-600">R$ 350,00</span>
+                    </label>
+                    <input type="range" id="priceFilter" min="80" max="350" step="10" value="350"
+                        class="w-full accent-emerald-600 cursor-pointer mt-2">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Vitrine / Catálogo Visual de Cestas -->
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">Catálogo de Cestas Disponíveis</h3>
+                    <p class="text-xs text-slate-500">Resultados atualizados dinamicamente conforme os filtros aplicados.</p>
+                </div>
+                <span id="basketCount" class="text-xs font-medium bg-slate-200 text-slate-700 px-3 py-1 rounded-full">
+                    4 opções encontradas
+                </span>
+            </div>
+
+            <!-- Grid de Cards Renderizado via JS -->
+            <div id="basketsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cards injetados via JavaScript -->
+            </div>
+
+            <!-- Estado Vazio (Caso nenhum produto seja encontrado) -->
+            <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300 mt-4">
+                <h4 class="text-slate-700 font-semibold">Nenhuma cesta encontrada</h4>
+                <p class="text-slate-500 text-sm mt-1">Tente redefinir os filtros ou alterar os termos da busca.</p>
+            </div>
+        </section>
+
     </main>
 
     <!-- Rodapé -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        <p>Projeto Integrador - Desenvolvimento Web (Sprint 1 Concluída).</p>
+        <p>Projeto Integrador - Desenvolvimento Web (Sprint 2 em Execução).</p>
     </footer>
 
     <script src="script.js"></script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cestas Básicas - Catálogo e Filtros (Sprint 2)</title>
+    <title>Cestas Básicas - Simulador de Orçamento (Sprint 3)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
@@ -14,7 +14,10 @@
     <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <h1 class="font-bold text-lg text-emerald-700">Comércio de Cestas Básicas</h1>
-            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Sprint 2</span>
+            <div class="flex items-center space-x-3">
+                <a href="#simulatorSection" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-xl transition">Ir para o Simulador</a>
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Sprint 3</span>
+            </div>
         </div>
     </header>
 
@@ -22,25 +25,21 @@
     <section class="bg-emerald-900 text-white py-12 px-4 text-center">
         <div class="max-w-3xl mx-auto space-y-3">
             <h2 class="text-3xl font-extrabold">Qualidade e Economia para sua Família</h2>
-            <p class="text-slate-200 text-sm sm:text-base">Utilize nossos filtros abaixo para encontrar rapidamente a cesta ideal com base nas suas necessidades e orçamento.</p>
+            <p class="text-slate-200 text-sm sm:text-base">Utilize nossos filtros, conheça os produtos e monte sua simulação de orçamento em tempo real.</p>
         </div>
     </section>
 
     <!-- Conteúdo Principal -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-10">
 
-        <!-- Área de Controles: Busca e Filtros (Sprint 2) -->
+        <!-- Área de Controles: Busca e Filtros (US03) -->
         <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- Busca por texto livre (Nome ou Itens) -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Buscar Cesta ou Item</label>
                     <input type="text" id="searchInput" placeholder="Ex: Arroz, Cesta Família..."
                         class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
                 </div>
-
-                <!-- Filtro por Categoria -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Filtrar por Categoria</label>
                     <select id="categoryFilter" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
@@ -51,8 +50,6 @@
                         <option value="premium">Cesta Premium</option>
                     </select>
                 </div>
-
-                <!-- Filtro por Faixa de Preço Máximo -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                         Preço Máximo: <span id="priceValue" class="font-bold text-emerald-600">R$ 350,00</span>
@@ -60,7 +57,6 @@
                     <input type="range" id="priceFilter" min="80" max="350" step="10" value="350"
                         class="w-full accent-emerald-600 cursor-pointer mt-2">
                 </div>
-
             </div>
         </section>
 
@@ -76,15 +72,50 @@
                 </span>
             </div>
 
-            <!-- Grid de Cards Renderizado via JS -->
             <div id="basketsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Cards injetados via JavaScript -->
             </div>
 
-            <!-- Estado Vazio (Caso nenhum produto seja encontrado) -->
             <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300 mt-4">
                 <h4 class="text-slate-700 font-semibold">Nenhuma cesta encontrada</h4>
                 <p class="text-slate-500 text-sm mt-1">Tente redefinir os filtros ou alterar os termos da busca.</p>
+            </div>
+        </section>
+
+        <!-- Seção do Simulador de Orçamento / Calculadora (Sprint 3 - US04) -->
+        <section id="simulatorSection" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6 scroll-mt-20">
+            <div>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md uppercase tracking-wider">Ferramenta Interativa</span>
+                <h3 class="text-2xl font-bold text-slate-900 mt-2">Simulador de Orçamento</h3>
+                <p class="text-sm text-slate-500">Selecione as quantidades desejadas de cada cesta para planejar sua compra ou doação em lote.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Controles de Quantidade por Cesta -->
+                <div id="simulatorControls" class="lg:col-span-2 space-y-4">
+                    <!-- Gerado dinamicamente via JS -->
+                </div>
+
+                <!-- Painel de Resumo da Compra -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-6 h-fit">
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-900 text-base border-b border-slate-200 pb-3">Resumo da Simulação</h4>
+                        <div id="summaryItems" class="space-y-2 text-sm text-slate-600">
+                            <p class="text-slate-400 italic text-xs">Nenhuma cesta selecionada.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-slate-600">Valor Total:</span>
+                            <span id="grandTotal" class="text-2xl font-extrabold text-emerald-600">R$ 0,00</span>
+                        </div>
+                        <button onclick="alert('Simulação finalizada com sucesso! Esta versão contempla o escopo interativo da US04.')" 
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-sm">
+                            Avançar com a Simulação
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -92,7 +123,7 @@
 
     <!-- Rodapé -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        <p>Projeto Integrador - Desenvolvimento Web (Sprint 2 em Execução).</p>
+        <p>Projeto Integrador - Desenvolvimento Web (Sprint 3).</p>
     </footer>
 
     <script src="script.js"></script>

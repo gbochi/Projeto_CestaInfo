@@ -1,4 +1,4 @@
-// Base de dados completa para suportar os filtros da Sprint 2 (US03)
+// Base de dados completa com controle de quantidade para o simulador (US04)
 const baskets = [
     {
         id: 'economica',
@@ -13,7 +13,8 @@ const baskets = [
             { name: 'Feijão Carioca', qty: '2 kg' },
             { name: 'Açúcar Refinado', qty: '2 kg' },
             { name: 'Óleo de Soja', qty: '900 ml' }
-        ]
+        ],
+        quantity: 0
     },
     {
         id: 'essencial',
@@ -28,7 +29,8 @@ const baskets = [
             { name: 'Feijão Carioca', qty: '3 kg' },
             { name: 'Café Tradicional', qty: '500 g' },
             { name: 'Farinha de Trigo', qty: '2 kg' }
-        ]
+        ],
+        quantity: 0
     },
     {
         id: 'familia',
@@ -43,7 +45,8 @@ const baskets = [
             { name: 'Feijão Carioca', qty: '5 kg' },
             { name: 'Leite UHT Integral', qty: '6 litros' },
             { name: 'Café Moído', qty: '1 kg' }
-        ]
+        ],
+        quantity: 0
     },
     {
         id: 'premium',
@@ -58,7 +61,8 @@ const baskets = [
             { name: 'Azeite de Oliva Extra Virgem', qty: '500 ml' },
             { name: 'Café Gourmet Moído', qty: '500 g' },
             { name: 'Mel Natural', qty: '250 g' }
-        ]
+        ],
+        quantity: 0
     }
 ];
 
@@ -67,7 +71,7 @@ const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 };
 
-// Função para renderizar os cards na tela
+// Função para renderizar os cards na vitrine
 function renderBaskets(filteredList) {
     const grid = document.getElementById('basketsGrid');
     const emptyState = document.getElementById('emptyState');
@@ -110,6 +114,74 @@ function renderBaskets(filteredList) {
     });
 }
 
+// Renderiza os controles de quantidade do Simulador (US04)
+function renderSimulatorControls() {
+    const container = document.getElementById('simulatorControls');
+    container.innerHTML = '';
+
+    baskets.forEach(basket => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-xs";
+        
+        row.innerHTML = `
+            <div>
+                <h5 class="font-bold text-slate-800 text-sm">${basket.name}</h5>
+                <span class="text-xs text-emerald-600 font-semibold">${formatCurrency(basket.price)} un.</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="updateQuantity('${basket.id}', -1)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition">−</button>
+                <span id="qty-${basket.id}" class="w-6 text-center font-bold text-slate-800 text-sm">${basket.quantity}</span>
+                <button onclick="updateQuantity('${basket.id}', 1)" class="w-8 h-8 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-bold flex items-center justify-center transition">+</button>
+            </div>
+        `;
+        container.appendChild(row);
+    });
+
+    updateSimulatorSummary();
+}
+
+// Atualiza a quantidade de uma cesta (com piso em 0)
+function updateQuantity(id, delta) {
+    const basket = baskets.find(b => b.id === id);
+    if (basket) {
+        basket.quantity = Math.max(0, basket.quantity + delta);
+        document.getElementById(`qty-${id}`).textContent = basket.quantity;
+        updateSimulatorSummary();
+    }
+}
+
+// Atualiza o resumo financeiro do simulador em tempo real
+function updateSimulatorSummary() {
+    const summaryContainer = document.getElementById('summaryItems');
+    const grandTotalLabel = document.getElementById('grandTotal');
+    
+    summaryContainer.innerHTML = '';
+    let total = 0;
+    let activeItemsCount = 0;
+
+    baskets.forEach(basket => {
+        if (basket.quantity > 0) {
+            activeItemsCount++;
+            const subtotal = basket.quantity * basket.price;
+            total += subtotal;
+
+            const itemRow = document.createElement('div');
+            itemRow.className = "flex justify-between items-center text-xs";
+            itemRow.innerHTML = `
+                <span>${basket.quantity}x ${basket.name}</span>
+                <span class="font-semibold text-slate-700">${formatCurrency(subtotal)}</span>
+            `;
+            summaryContainer.appendChild(itemRow);
+        }
+    });
+
+    if (activeItemsCount === 0) {
+        summaryContainer.innerHTML = `<p class="text-slate-400 italic text-xs">Nenhuma cesta selecionada.</p>`;
+    }
+
+    grandTotalLabel.textContent = formatCurrency(total);
+}
+
 // Lógica de Filtragem Dinâmica (US03)
 function filterBaskets() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -128,9 +200,10 @@ function filterBaskets() {
     renderBaskets(filtered);
 }
 
-// Inicialização dos Event Listeners para Busca em Tempo Real
+// Inicialização Geral
 document.addEventListener('DOMContentLoaded', () => {
     renderBaskets(baskets);
+    renderSimulatorControls();
 
     document.getElementById('searchInput').addEventListener('input', filterBaskets);
     document.getElementById('categoryFilter').addEventListener('change', filterBaskets);

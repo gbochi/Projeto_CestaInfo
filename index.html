@@ -3,129 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cestas Básicas - Simulador de Orçamento (Sprint 3)</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Informativo de Cestas Básicas</title>
+
+    <!-- Tailwind CSS CDN para estilização rápida e responsiva -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fonte Google Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS externo -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Cabeçalho (Header) -->
-    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
+    <!-- Cabeçalho Principal -->
+    <header class="sticky top-0 z-30 glass-header border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <h1 class="font-bold text-lg text-emerald-700">Comércio de Cestas Básicas</h1>
-            <div class="flex items-center space-x-3">
-                <a href="#simulatorSection" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-xl transition">Ir para o Simulador</a>
-                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Sprint 3</span>
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-basket-shopping text-xl"></i>
+                </div>
+
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-slate-900">CestaInfo</h1>
+                    <p class="text-xs text-slate-500">Informativo & Calculadora de Cestas Básicas</p>
+                </div>
             </div>
+
+            <a href="#calculadora" class="hidden sm:flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-medium px-4 py-2 rounded-lg text-sm transition">
+                <i class="fa-solid fa-calculator"></i>
+                <span>Simulador de Preço</span>
+            </a>
         </div>
     </header>
 
-    <!-- Seção de Apresentação (Hero Section) -->
-    <section class="bg-emerald-900 text-white py-12 px-4 text-center">
-        <div class="max-w-3xl mx-auto space-y-3">
-            <h2 class="text-3xl font-extrabold">Qualidade e Economia para sua Família</h2>
-            <p class="text-slate-200 text-sm sm:text-base">Utilize nossos filtros, conheça os produtos e monte sua simulação de orçamento em tempo real.</p>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-emerald-900 via-emerald-800 to-slate-900 text-white py-12 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
+                Transparência & Nutrição
+            </span>
+
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Consulte o conteúdo e os valores das Cestas Básicas
+            </h2>
+
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
+                Compare opções, veja a composição nutricional estimada e faça simulações de orçamentos completos de forma rápida.
+            </p>
         </div>
     </section>
 
     <!-- Conteúdo Principal -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-10">
 
-        <!-- Área de Controles: Busca e Filtros (US03) -->
-        <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Buscar Cesta ou Item</label>
-                    <input type="text" id="searchInput" placeholder="Ex: Arroz, Cesta Família..."
-                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+        <!-- Área de Controles: Busca e Filtros -->
+        <section class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <!-- Busca por texto -->
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Buscar Cesta ou Item</label>
+
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+                        <input type="text" id="searchInput" placeholder="Ex: Arroz, Cesta Família..."
+                            class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
+                    </div>
                 </div>
+
+                <!-- Filtro de Categoria/Tipo -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Filtrar por Categoria</label>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Filtrar por Categoria</label>
+
                     <select id="categoryFilter" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition">
                         <option value="todos">Todas as Cestas</option>
                         <option value="economica">Cesta Econômica</option>
                         <option value="essencial">Cesta Essencial</option>
                         <option value="familia">Cesta Família</option>
-                        <option value="premium">Cesta Premium</option>
+                        <option value="premium">Cesta Premium / Hortifrúti</option>
                     </select>
                 </div>
+
+                <!-- Filtro por Faixa de Preço -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
                         Preço Máximo: <span id="priceValue" class="font-bold text-emerald-600">R$ 350,00</span>
                     </label>
+
                     <input type="range" id="priceFilter" min="80" max="350" step="10" value="350"
                         class="w-full accent-emerald-600 cursor-pointer mt-2">
                 </div>
+
             </div>
         </section>
 
-        <!-- Vitrine / Catálogo Visual de Cestas -->
+        <!-- Lista / Grid de Cestas -->
         <section>
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-900">Catálogo de Cestas Disponíveis</h3>
-                    <p class="text-xs text-slate-500">Resultados atualizados dinamicamente conforme os filtros aplicados.</p>
+                    <h3 class="text-xl font-bold text-slate-900">Cestas Disponíveis</h3>
+                    <p class="text-xs text-slate-500">Exibindo valores médios atualizados</p>
                 </div>
+
                 <span id="basketCount" class="text-xs font-medium bg-slate-200 text-slate-700 px-3 py-1 rounded-full">
                     4 opções encontradas
                 </span>
             </div>
 
+            <!-- Grid onde os cards serão inseridos via JavaScript -->
             <div id="basketsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Cards injetados via JavaScript -->
+                <!-- Cards renderizados dinamicamente -->
             </div>
 
-            <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300 mt-4">
+            <!-- Estado de Busca Vazia -->
+            <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300">
+                <i class="fa-solid fa-basket-shopping text-4xl text-slate-300 mb-3"></i>
                 <h4 class="text-slate-700 font-semibold">Nenhuma cesta encontrada</h4>
-                <p class="text-slate-500 text-sm mt-1">Tente redefinir os filtros ou alterar os termos da busca.</p>
+                <p class="text-slate-500 text-sm">Tente redefinir os filtros ou alterar os termos da busca.</p>
             </div>
         </section>
 
-        <!-- Seção do Simulador de Orçamento / Calculadora (Sprint 3 - US04) -->
-        <section id="simulatorSection" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6 scroll-mt-20">
-            <div>
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md uppercase tracking-wider">Ferramenta Interativa</span>
-                <h3 class="text-2xl font-bold text-slate-900 mt-2">Simulador de Orçamento</h3>
-                <p class="text-sm text-slate-500">Selecione as quantidades desejadas de cada cesta para planejar sua compra ou doação em lote.</p>
+        <!-- Calculadora e Simulador de Pedidos -->
+        <section id="calculadora" class="bg-gradient-to-br from-slate-900 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="max-w-3xl mb-6">
+                <span class="text-emerald-400 font-semibold text-xs uppercase tracking-wider">Ferramenta Interativa</span>
+
+                <h3 class="text-2xl font-bold mt-1">Simulador de Valor Total</h3>
+
+                <p class="text-slate-300 text-sm mt-1">
+                    Selecione as quantidades de cada cesta para simular o valor final estimado para compras em lote, doações ou planejamento familiar.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Controles de Quantidade por Cesta -->
-                <div id="simulatorControls" class="lg:col-span-2 space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+                <!-- Seletor de Quantidades -->
+                <div class="lg:col-span-2 space-y-4" id="calculatorItems">
                     <!-- Gerado dinamicamente via JS -->
                 </div>
 
-                <!-- Painel de Resumo da Compra -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-6 h-fit">
-                    <div class="space-y-4">
-                        <h4 class="font-bold text-slate-900 text-base border-b border-slate-200 pb-3">Resumo da Simulação</h4>
-                        <div id="summaryItems" class="space-y-2 text-sm text-slate-600">
-                            <p class="text-slate-400 italic text-xs">Nenhuma cesta selecionada.</p>
+                <!-- Painel de Total da Simulação -->
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 flex flex-col justify-between h-full">
+                    <div>
+                        <h4 class="text-xs font-semibold text-emerald-300 uppercase tracking-wider mb-4">Resumo da Simulação</h4>
+
+                        <div id="simulatedList" class="space-y-2 mb-6 text-sm text-slate-200 divide-y divide-white/10">
+                            <!-- Detalhes do cálculo inseridos via JS -->
                         </div>
                     </div>
 
-                    <div class="pt-4 border-t border-slate-200 space-y-3">
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-semibold text-slate-600">Valor Total:</span>
-                            <span id="grandTotal" class="text-2xl font-extrabold text-emerald-600">R$ 0,00</span>
+                    <div class="pt-4 border-t border-white/20">
+                        <span class="text-xs text-slate-300 block mb-1">Valor Total Estimado</span>
+
+                        <div class="text-3xl font-extrabold text-emerald-400" id="grandTotal">
+                            R$ 0,00
                         </div>
-                        <button onclick="alert('Simulação finalizada com sucesso! Esta versão contempla o escopo interativo da US04.')" 
-                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-sm">
-                            Avançar com a Simulação
-                        </button>
+
+                        <p class="text-[10px] text-slate-400 mt-2">
+                            * Valores de referência calculados com base nas médias dos itens individuais.
+                        </p>
                     </div>
+                </div>
+
+            </div>
+        </section>
+		
+		<section id="institutionalSection" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6 scroll-mt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2 space-y-3">
+                    <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md uppercase tracking-wider">Quem Somos</span>
+                    <h3 class="text-2xl font-bold text-slate-900">Compromisso Local com Transparência e Economia</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Somos um comércio local dedicado à montagem e distribuição de cestas básicas selecionadas, unindo procedência confiável, preços justos e facilidade no planejamento de compras domésticas ou ações solidárias.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <h4 class="font-bold text-slate-900 text-base">Atendimento e Contato</h4>
+                    <ul class="space-y-2 text-xs text-slate-600">
+                        <li><strong class="text-slate-800">Horário:</strong> Seg. a Sáb., das 08h às 18h</li>
+                        <li><strong class="text-slate-800">Atendimento:</strong> (45) 99999-0000</li>
+                        <li><strong class="text-slate-800">E-mail:</strong> contato@comerciocestas.com.br</li>
+                        <li><strong class="text-slate-800">Região:</strong> Atendimento local e entregas programadas</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Rodapé -->
-    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        <p>Projeto Integrador - Desenvolvimento Web (Sprint 3).</p>
+    <!-- Modal de Detalhes Nutricionais / Resumo Completo -->
+    <div id="detailsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+
+            <!-- Header Modal -->
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <span id="modalIcon" class="p-2 bg-emerald-100 text-emerald-700 rounded-lg text-lg"></span>
+
+                    <div>
+                        <h3 id="modalTitle" class="font-bold text-slate-900 text-lg">--</h3>
+                        <p id="modalCategory" class="text-xs text-slate-500">--</p>
+                    </div>
+                </div>
+
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Corpo do Modal -->
+            <div class="p-6 overflow-y-auto space-y-5 text-sm">
+
+                <p id="modalDescription" class="text-slate-600 leading-relaxed">--</p>
+
+                <!-- Resumo Nutricional Estimado -->
+                <div class="bg-amber-50 border border-amber-200/60 p-4 rounded-xl space-y-2">
+                    <h4 class="font-semibold text-amber-900 flex items-center gap-2 text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-heart-pulse text-amber-600"></i> Informação Nutricional Estimada
+                    </h4>
+
+                    <p id="modalNutritional" class="text-xs text-amber-800 leading-relaxed">--</p>
+                </div>
+
+                <!-- Lista de Itens Detalhada -->
+                <div>
+                    <h4 class="font-semibold text-slate-900 mb-3 text-xs uppercase tracking-wider text-slate-500">
+                        Composição Completa
+                    </h4>
+
+                    <ul id="modalItemList" class="divide-y divide-slate-100 bg-slate-50 rounded-xl p-3">
+                        <!-- Itens renderizados aqui -->
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Rodapé Modal -->
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                    <span class="text-xs text-slate-500">Valor total da cesta</span>
+                    <p id="modalPrice" class="font-bold text-emerald-600 text-lg">R$ 0,00</p>
+                </div>
+
+                <button onclick="closeModal()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium px-5 py-2 rounded-xl text-sm transition">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Rodapé da Aplicação -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-1">
+            <p>Proposta Educacional & Informativa de Cestas Básicas.</p>
+            <p>Desenvolvido com HTML5, Tailwind CSS & JavaScript puro.</p>
+        </div>
     </footer>
 
+    <!-- JavaScript externo -->
     <script src="script.js"></script>
+
 </body>
 </html>
